@@ -6,7 +6,7 @@ function App() {
         <Draggable
             axis='x'
             handle='.handle'
-            defaultPosition={{ x: 10, y: 0 }}
+            defaultPosition={{x: 10, y: 0}}
             grid={[25, 25]}
             scale={1}
         >
