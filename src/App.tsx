@@ -1,34 +1,28 @@
-import React from 'react';
-import Draggable from 'react-draggable';
-import { DeviceCard } from './components/molecules/Cards/DeviceCard';
+import React, { useEffect, useState } from 'react';
+// import Draggable from 'react-draggable';
+import { RenderDevices } from './components/organisms/Devices/RenderDevices';
+import { ISmartDevice } from './interfaces/index';
 
 function App() {
+    const [devices, setDevices] = useState<ISmartDevice[]>([]);
+
+    useEffect(() => {
+        fetch('http://localhost:3000/api/v1/devices')
+            .then(res => res.json())
+            .then(data => {
+                setDevices(data.devices);
+                console.log(data.devices);
+                console.log(devices);
+            });
+    }, []);
+
     return (
         <>
-            <div className='py-2'>
-                <DeviceCard
-                    deviceType={'bulb'}
-                    deviceName={'Bulb 1'}
-                    deviceId={'bulb-1'}
-                    connectionType={'connected'}
-                />
-            </div>
-            <div className='py-2'>
-                <DeviceCard
-                    deviceType={'outlet'}
-                    deviceName={'Outlet 1'}
-                    deviceId={'outlet-1'}
-                    connectionType={'poorConnection'}
-                />
-            </div>
-            <div className='py-2'>
-                <DeviceCard
-                    deviceType={'temperatureSensor'}
-                    deviceName={'Sensor 1'}
-                    deviceId={'sensor-1'}
-                    connectionType={'disconnected'}
-                />
-            </div>
+            {devices.length > 0 ? (
+                <RenderDevices devices={devices} />
+            ) : (
+                <div>No devices found</div>
+            )}
         </>
     );
 }

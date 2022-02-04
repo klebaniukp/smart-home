@@ -1,8 +1,8 @@
 export interface ISmartDevice {
-    type: string; // 'bulb', 'outlet' or 'temperatureSensor';
+    type: 'bulb' | 'outlet' | 'temperatureSensor';
     id: string;
     name: string;
-    connectionState: string; // 'connected', 'disconnected' or 'poorConnection'
+    connectionState: 'connected' | 'poorConnection' | 'disconnected';
 }
 
 export interface ISmartBulb extends ISmartDevice {

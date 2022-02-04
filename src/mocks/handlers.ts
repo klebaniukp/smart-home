@@ -21,7 +21,7 @@ export const handlers = [
                     {
                         type: 'temperatureSensor',
                         id: 'temperatureSensor',
-                        name: 'Temperature Sensor 1',
+                        name: 'Sensor 1',
                         connectionState: 'poorConnection',
                     },
                 ],
