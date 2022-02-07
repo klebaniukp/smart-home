@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { StatusButton } from '../Buttons/StatusButton';
 import { LargeField } from '../../atoms/Fields/LargeField';
 import { MediumField } from '../../atoms/Fields/MediumField';
@@ -12,8 +13,12 @@ export const DeviceCard = (props: {
     deviceType: 'bulb' | 'outlet' | 'temperatureSensor';
     deviceName: string;
     deviceId: string;
-    connectionType: 'connected' | 'poorConnection' | 'disconnected';
+    connectionState: 'connected' | 'poorConnection' | 'disconnected';
 }) => {
+    const { deviceType, deviceName, deviceId, connectionState } = props;
+
+    const dispatch = useDispatch();
+
     const renderIcon = () => {
         switch (props.deviceType) {
             case 'bulb':
@@ -27,16 +32,35 @@ export const DeviceCard = (props: {
         }
     };
 
+    const setActiveDevice = () => {
+        dispatch({
+            type: 'SET_ACTIVE_DEVICE',
+            payload: {
+                type: deviceType,
+                id: deviceId,
+                name: deviceName,
+                connectionState: connectionState,
+            },
+        });
+    };
+
     return (
-        <div className='py-8 px-8 w-4/12 mx-auto bg-white rounded-xl shadow-lg space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6'>
+        <div
+            className={`py-8 px-8 w-5/12 mx-auto bg-white rounded-xl shadow-lg 
+            space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6 
+            flex justify-between`}>
             {renderIcon()}
 
-            <div className='w-60'>
+            <div className='w-60 '>
                 <LargeField type={props.deviceType} name={props.deviceName} />
                 <MediumField name={props.deviceId} />
             </div>
-            <StatusButton type={props.connectionType} />
-            <button className='hover:bg-gray-200 rounded'>
+            <div className='flex flex-row w-40 justify-center'>
+                <StatusButton type={props.connectionState} />
+            </div>
+            <button
+                className='hover:bg-gray-200 rounded px-2 h-9'
+                onClick={() => setActiveDevice()}>
                 <AdjustmentIcon />
             </button>
         </div>

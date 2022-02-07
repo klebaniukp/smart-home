@@ -1,9 +1,13 @@
 import React from 'react';
 import { DeviceCard } from '../../molecules/Cards/DeviceCard';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
 import { ISmartDevice } from '../../../interfaces/index';
 
-export const RenderDevices = (props: { devices: ISmartDevice[] }) => {
-    const { devices } = props;
+export const RenderDevices = () => {
+    const devices: ISmartDevice[] = useSelector(
+        (state: RootState) => state.devices,
+    );
 
     const renderDevices = () => {
         if (devices.length > 0) {
@@ -14,7 +18,7 @@ export const RenderDevices = (props: { devices: ISmartDevice[] }) => {
                             deviceType={device.type}
                             deviceName={device.name}
                             deviceId={device.id}
-                            connectionType={device.connectionState}
+                            connectionState={device.connectionState}
                         />
                     </div>
                 );
