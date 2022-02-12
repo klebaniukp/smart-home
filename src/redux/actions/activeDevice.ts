@@ -1,8 +1,17 @@
-import { ISmartDevice } from '../../interfaces';
+import {
+    ISmartBulb,
+    ISmartOutlet,
+    ISmartTemperatureSensor,
+} from '../../interfaces';
 
 export const activeDevice =
-    (device: ISmartDevice) =>
-    (dispatch: (arg0: { type: string; payload: ISmartDevice }) => void) => {
+    (device: ISmartBulb | ISmartOutlet | ISmartTemperatureSensor) =>
+    (
+        dispatch: (arg0: {
+            type: string;
+            payload: ISmartBulb | ISmartOutlet | ISmartTemperatureSensor;
+        }) => void,
+    ) => {
         try {
             dispatch({
                 type: 'SET_ACTIVE_DEVICE',

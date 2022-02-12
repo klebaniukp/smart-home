@@ -1,8 +1,15 @@
-import { ISmartDevice } from '../../interfaces';
+import {
+    ISmartBulb,
+    ISmartOutlet,
+    ISmartTemperatureSensor,
+} from '../../interfaces';
 
 export const activeDeviceReducer = (
-    state: ISmartDevice,
-    action: { type: string; payload: ISmartDevice },
+    state: ISmartBulb | ISmartOutlet | ISmartTemperatureSensor,
+    action: {
+        type: string;
+        payload: ISmartBulb | ISmartOutlet | ISmartTemperatureSensor;
+    },
 ) => {
     try {
         switch (action.type) {
@@ -10,12 +17,7 @@ export const activeDeviceReducer = (
                 return action.payload;
             default:
                 if (state) return state;
-                return {
-                    type: '',
-                    id: '',
-                    name: '',
-                    connectionState: '',
-                };
+                return {};
         }
     } catch (error) {
         console.log(error);

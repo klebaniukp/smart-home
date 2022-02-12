@@ -1,8 +1,8 @@
 import React from 'react';
-import { DeviceCard } from '../../molecules/Cards/DeviceCard';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
-import { ISmartDevice } from '../../../interfaces/index';
+import {DeviceCard} from '../../molecules/Cards/DeviceCard';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../redux/store';
+import {ISmartDevice} from '../../../interfaces/index';
 
 export const RenderDevices = () => {
     const devices: ISmartDevice[] = useSelector(
