@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from './redux/store';
-import {ISmartDevice} from './interfaces/index';
-import {RenderDevices} from './components/organisms/Devices/RenderDevices';
-import {ActiveDevice} from './components/organisms/Devices/ActiveDevice';
-import {activeDeviceService} from "./services/activeDeviceService";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './redux/store';
+import { ISmartDevice } from './interfaces/index';
+import { RenderDevices } from './components/organisms/Devices/RenderDevices';
+import { ActiveDevice } from './components/organisms/Devices/ActiveDevice';
+import { activeDeviceService } from './services/activeDeviceService';
 
 function App() {
     const dispatch = useDispatch();
@@ -17,7 +17,7 @@ function App() {
         fetch('http://localhost:3000/api/v1/devices')
             .then(res => res.json())
             .then(data => {
-                dispatch({type: 'SET_DEVICES', payload: data.devices});
+                dispatch({ type: 'SET_DEVICES', payload: data.devices });
             });
 
         console.log(activeDeviceService('outlet'));
@@ -26,11 +26,11 @@ function App() {
     return (
         <>
             {devices.length > 0 ? (
-                <RenderDevices/>
+                <RenderDevices />
             ) : (
                 <div>No devices found</div>
             )}
-            <ActiveDevice/>
+            <ActiveDevice />
         </>
     );
 }

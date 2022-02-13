@@ -1,7 +1,7 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../redux/store';
-import {ISmartBulb} from '../../../interfaces';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
+import { ISmartBulb } from '../../../interfaces';
 
 export const RenderBulbFields = () => {
     const bulb: ISmartBulb = useSelector(
