@@ -2,7 +2,7 @@ export const activeDeviceService = (
     id: 'bulb' | 'outlet' | 'temperatureSensor',
 ) => {
     //this service would connect to websocket and listen to events -> return it
-    //or just listen to ws in body of desired component
+    //or just listen to ws in body of desired components
 
     const seed = getRandomInt(0, 100);
 
