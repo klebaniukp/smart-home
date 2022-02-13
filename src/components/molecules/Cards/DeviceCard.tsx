@@ -1,15 +1,15 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {StatusButton} from '../Buttons/StatusButton';
-import {LargeField} from '../../atoms/Fields/LargeField';
-import {MediumField} from '../../atoms/Fields/MediumField';
-import {AdjustmentIcon} from '../../atoms/Icons/AdjustmentIcon';
-import {BulbIcon} from '../../atoms/Icons/BulbIcon';
-import {TemperatureSensorIcon} from '../../atoms/Icons/TemperatureSensorIcon';
-import {OutletIcon} from '../../atoms/Icons/OutletIcon';
-import {DefaultIcon} from '../../atoms/Icons/DefaultIcon';
-import {RootState} from "../../../redux/store";
-import {ISmartDevice} from "../../../interfaces";
+import { useDispatch, useSelector } from 'react-redux';
+import { StatusButton } from '../Buttons/StatusButton';
+import { LargeField } from '../../atoms/Fields/LargeField';
+import { MediumField } from '../../atoms/Fields/MediumField';
+import { AdjustmentIcon } from '../../atoms/Icons/AdjustmentIcon';
+import { BulbIcon } from '../../atoms/Icons/BulbIcon';
+import { TemperatureSensorIcon } from '../../atoms/Icons/TemperatureSensorIcon';
+import { OutletIcon } from '../../atoms/Icons/OutletIcon';
+import { DefaultIcon } from '../../atoms/Icons/DefaultIcon';
+import { RootState } from '../../../redux/store';
+import { ISmartDevice } from '../../../interfaces';
 
 export const DeviceCard = (props: {
     deviceType: 'bulb' | 'outlet' | 'temperatureSensor';
@@ -17,23 +17,24 @@ export const DeviceCard = (props: {
     deviceId: string;
     connectionState: 'connected' | 'poorConnection' | 'disconnected';
 }) => {
-    const {deviceType, deviceName, deviceId, connectionState} = props;
+    const { deviceType, deviceName, deviceId, connectionState } = props;
 
     const activeDevice: ISmartDevice = useSelector(
-        (state: RootState) => state.activeDevice);
+        (state: RootState) => state.activeDevice,
+    );
 
     const dispatch = useDispatch();
 
     const renderIcon = () => {
         switch (props.deviceType) {
             case 'bulb':
-                return <BulbIcon/>;
+                return <BulbIcon />;
             case 'outlet':
-                return <OutletIcon/>;
+                return <OutletIcon />;
             case 'temperatureSensor':
-                return <TemperatureSensorIcon/>;
+                return <TemperatureSensorIcon />;
             default:
-                return <DefaultIcon/>;
+                return <DefaultIcon />;
         }
     };
 
@@ -58,16 +59,22 @@ export const DeviceCard = (props: {
             {renderIcon()}
 
             <div className='w-60 '>
-                <LargeField type={props.deviceType} name={props.deviceName}/>
-                <MediumField name={props.deviceId}/>
+                <LargeField type={props.deviceType} name={props.deviceName} />
+                <MediumField name={props.deviceId} />
             </div>
-            <div className='flex flex-row w-40 justify-center'>
-                <StatusButton type={props.connectionState}/>
-            </div>
+            {activeDevice.id === deviceId ? (
+                <div className='flex flex-row w-40 justify-center'>
+                    <StatusButton type={activeDevice.connectionState} />
+                </div>
+            ) : (
+                <div className='flex flex-row w-40 justify-center'>
+                    <StatusButton type={props.connectionState} />
+                </div>
+            )}
             <button
                 className='hover:bg-gray-200 rounded px-2 h-9'
                 onClick={() => setActiveDevice()}>
-                <AdjustmentIcon/>
+                <AdjustmentIcon />
             </button>
         </div>
     );

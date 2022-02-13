@@ -13,7 +13,7 @@ export const RenderBulbFields = () => {
             {bulb.type === 'bulb' ? (
                 <>
                     <p className='text-slate-500 font-medium text-xl'>
-                        on/off status: {JSON.stringify(bulb.isTurnedOn)}
+                        is turned on: {JSON.stringify(bulb.isTurnedOn)}
                     </p>
                     <p className='text-slate-500 font-medium text-xl'>
                         brightness: {bulb.brightness}

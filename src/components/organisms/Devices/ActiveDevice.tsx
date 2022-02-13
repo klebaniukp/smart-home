@@ -13,17 +13,22 @@ import { RenderBulbFields } from '../../molecules/Devices/RenderBulbFields';
 import { RenderOutletFields } from '../../molecules/Devices/RenderOutletFields';
 import { RenderSensorFields } from '../../molecules/Devices/RenderSensorFields';
 
-export const ActiveDevice = () => {
+export const ActiveDevice = (props: {
+    defaultPosition: { x: number; y: number };
+}) => {
     const activeDevice: ISmartDevice = useSelector(
         (state: RootState) => state.activeDevice,
     );
 
     const dispatch = useDispatch();
 
-    const [currentInterval, setCurrentInterval] = useState<any>();
+    const [currentInterval, setCurrentInterval] = useState<
+        NodeJS.Timer | undefined
+    >(undefined);
+
+    const [position, setPosition] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
-        console.log('activated');
         if (activeDevice.type === 'bulb') {
             getBulbService().then(bulb => {
                 if (bulb !== void 0) {
@@ -32,7 +37,7 @@ export const ActiveDevice = () => {
             });
             const id = activeDevice.id;
             if (id === 'bulb') {
-                clearInterval(currentInterval);
+                if (currentInterval) clearInterval(currentInterval);
                 setCurrentInterval(
                     setInterval(() => {
                         dispatch({
@@ -50,7 +55,7 @@ export const ActiveDevice = () => {
             });
             const id = activeDevice.id;
             if (id === 'outlet') {
-                clearInterval(currentInterval);
+                if (currentInterval) clearInterval(currentInterval);
                 setCurrentInterval(
                     setInterval(() => {
                         dispatch({
@@ -68,8 +73,7 @@ export const ActiveDevice = () => {
             });
             const id = activeDevice.id;
             if (id === 'temperatureSensor') {
-                clearInterval(currentInterval);
-
+                if (currentInterval) clearInterval(currentInterval);
                 setCurrentInterval(
                     setInterval(() => {
                         dispatch({
@@ -82,9 +86,30 @@ export const ActiveDevice = () => {
         }
     }, [activeDevice.type]);
 
+    const trackPos = (data: any) => {
+        setPosition({ x: data.x, y: data.y });
+        console.log(position);
+    };
+
+    const saveDataToLS = () => {
+        localStorage.setItem('position', JSON.stringify(position));
+        console.log(localStorage.getItem('position'));
+    };
+
+    // const setStartingPosition = () => {
+    //     const positionLS = localStorage.getItem('position');
+    //     if (positionLS !== null) setPosition(JSON.parse(positionLS));
+    //     else setPosition({ x: 0, y: 0 });
+
+    //     console.log([position, positionLS]);
+    // };
+
     return (
-        <Draggable defaultPosition={{ x: 0, y: 0 }}>
-            <div className='w-1/4'>
+        <Draggable
+            defaultPosition={props.defaultPosition}
+            onDrag={(e, data) => trackPos(data)}
+            onStop={() => saveDataToLS()}>
+            <div className='w-1/4 drag-wrapper'>
                 <p className='text-slate-500 font-medium text-xl'>
                     {activeDevice.name}
                 </p>

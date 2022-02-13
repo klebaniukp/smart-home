@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './redux/store';
 import { ISmartDevice } from './interfaces/index';
 import { RenderDevices } from './components/organisms/Devices/RenderDevices';
 import { ActiveDevice } from './components/organisms/Devices/ActiveDevice';
-import { activeDeviceService } from './services/activeDeviceService';
+
+interface IPosition {
+    x: number;
+    y: number;
+}
 
 function App() {
     const dispatch = useDispatch();
@@ -13,15 +17,23 @@ function App() {
         (state: RootState) => state.devices,
     );
 
+    const [position, setPosition] = useState<IPosition>();
+
     useEffect(() => {
         fetch('http://localhost:3000/api/v1/devices')
             .then(res => res.json())
             .then(data => {
                 dispatch({ type: 'SET_DEVICES', payload: data.devices });
             });
-
-        console.log(activeDeviceService('outlet'));
+        setPosition(defaultPosition());
     }, []);
+
+    const defaultPosition = () => {
+        const positionLS = localStorage.getItem('position');
+        console.log([position, positionLS]);
+        if (positionLS !== null) return JSON.parse(positionLS);
+        else return { x: 0, y: 0 };
+    };
 
     return (
         <>
@@ -30,7 +42,7 @@ function App() {
             ) : (
                 <div>No devices found</div>
             )}
-            <ActiveDevice />
+            {position ? <ActiveDevice defaultPosition={position} /> : <></>}
         </>
     );
 }

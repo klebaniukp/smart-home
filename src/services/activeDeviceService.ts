@@ -8,7 +8,7 @@ export const activeDeviceService = (
 
     switch (id) {
         case 'bulb':
-            if (seed > 50)
+            if (seed < 33)
                 return {
                     type: 'bulb',
                     id: id,
@@ -18,7 +18,7 @@ export const activeDeviceService = (
                     brightness: getRandomInt(0, 100),
                     color: '#ffffff',
                 };
-            else
+            else if (seed < 66)
                 return {
                     type: 'bulb',
                     id: id,
@@ -28,8 +28,18 @@ export const activeDeviceService = (
                     brightness: getRandomInt(0, 100),
                     color: '#ffffff',
                 };
+            else
+                return {
+                    type: 'bulb',
+                    id: id,
+                    name: 'Bulb 1',
+                    connectionState: 'disconnected',
+                    isTurnedOn: false,
+                    brightness: getRandomInt(0, 100),
+                    color: '#ffffff',
+                };
         case 'outlet':
-            if (seed > 50)
+            if (seed < 33)
                 return {
                     type: 'outlet',
                     id: id,
@@ -38,7 +48,7 @@ export const activeDeviceService = (
                     isTurnedOn: false,
                     powerConsumption: getRandomInt(10, 245),
                 };
-            else
+            else if (seed < 66)
                 return {
                     type: 'outlet',
                     id: id,
@@ -47,8 +57,17 @@ export const activeDeviceService = (
                     isTurnedOn: true,
                     powerConsumption: getRandomInt(10, 245),
                 };
+            else
+                return {
+                    type: 'outlet',
+                    id: id,
+                    name: 'Outlet 1',
+                    connectionState: 'poorConnection',
+                    isTurnedOn: true,
+                    powerConsumption: getRandomInt(10, 245),
+                };
         case 'temperatureSensor':
-            if (seed > 50)
+            if (seed < 33)
                 return {
                     type: 'temperatureSensor',
                     id: id,
@@ -56,12 +75,20 @@ export const activeDeviceService = (
                     connectionState: 'connected',
                     temperature: getRandomInt(0, 43),
                 };
-            else
+            else if (seed < 66)
                 return {
                     type: 'temperatureSensor',
                     id: id,
                     name: 'Temperature Sensor 1',
                     connectionState: 'poorConnection',
+                    temperature: getRandomInt(0, 43),
+                };
+            else
+                return {
+                    type: 'temperatureSensor',
+                    id: id,
+                    name: 'Temperature Sensor 1',
+                    connectionState: 'disconnected',
                     temperature: getRandomInt(0, 43),
                 };
     }
